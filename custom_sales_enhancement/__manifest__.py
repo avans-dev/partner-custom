@@ -15,7 +15,7 @@
         3. Copy tags from sale order to delivery orders - Done
         4. Enable tag searching in delivery orders - Done
         5. Optional tags field visibility in delivery order views - Done
-    6. Restrict qty changes in manufacturing orders after confirmation
+        6. Restrict qty changes in manufacturing orders after confirmation - Done
     7. Split purchase orders by category from procurement
     8. Automated email action for delivery notifications
         9. Unique category name constraint - Done
@@ -25,7 +25,7 @@
     'author': 'Avan Sorathiya',
     'website': 'https://github.com/avans-dev/partner-custom',
     'license': 'LGPL-3',
-    'depends': ['base', 'sale_management', 'sale_stock', 'crm'],
+    'depends': ['base', 'sale_management', 'sale_stock', 'crm', 'sale_mrp'],
     'data': [
         'views/res_partner_views.xml',
         'views/sale_order_views.xml',
