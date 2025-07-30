@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form_inherit_tags" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.tags</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="tag_ids" widget="many2many_tags"
+                       invisible="not tag_ids"
+                       options="{'color_field': 'color', 'no_create_edit': True}"
+                       help="Tags copied from sale order"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_picking_tree_inherit_tags" model="ir.ui.view">
+        <field name="name">stock.picking.tree.inherit.tags</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list/field[@name='state']" position="after">
+                <field name="tag_ids" optional="hide" widget="many2many_tags" options="{'color_field': 'color'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_picking_internal_search_inherit_tags" model="ir.ui.view">
+        <field name="name">stock.picking.search.inherit.tags</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="tag_ids" string="Tags" filter_domain="[('tag_ids', 'ilike', self)]"/>
+            </field>
+            <group position="inside">
+                <filter string="Tags" name="group_by_tags" context="{'group_by': 'tag_ids'}"/>
+            </group>
+        </field>
+    </record>
+
+    <record id="stock_picking_kanban_inherit_tags" model="ir.ui.view">
+        <field name="name">stock.picking.kanban.inherit.tags</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.stock_picking_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//footer/div[1]/field[@name='activity_ids']" position="before">
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

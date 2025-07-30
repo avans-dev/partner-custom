@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_filter_enhanced" model="ir.ui.view">
+        <field name="name">res.partner.search.enhanced</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <field name="name" position="attributes">
+                <attribute name="filter_domain">['|', '|', '|', ('name', 'ilike', self), ('ref', 'ilike', self), ('email', 'ilike', self), ('phone', 'ilike', self)]</attribute>
+            </field>
+            <field name="name" position="after">
+                <field name="ref" string="Reference" filter_domain="[('ref', 'ilike', self)]"/>
+            </field>
+        </field>
+    </record>
+</odoo>
