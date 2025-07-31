@@ -16,8 +16,8 @@
         4. Enable tag searching in delivery orders - Done
         5. Optional tags field visibility in delivery order views - Done
         6. Restrict qty changes in manufacturing orders after confirmation - Done
-    7. Split purchase orders by category from procurement
-    8. Automated email action for delivery notifications
+        7. Split purchase orders by category from procurement - Done
+        8. Automated email action for delivery notifications - Done
         9. Unique category name constraint - Done
     10. Clipboard copy widget for char fields
         11. Replace default search filter My Quotations with Sales Orders to display confirmed and done orders by default. - Done
@@ -25,14 +25,22 @@
     'author': 'Avan Sorathiya',
     'website': 'https://github.com/avans-dev/partner-custom',
     'license': 'LGPL-3',
-    'depends': ['base', 'sale_management', 'sale_stock', 'crm', 'sale_mrp'],
+    'depends': ['base', 'sale_management', 'sale_stock', 'crm', 'sale_mrp', 'purchase', 'base_automation'],
     'data': [
+        'data/mail_template.xml',
+        'data/ir_actions_server.xml',
         'views/res_partner_views.xml',
         'views/sale_order_views.xml',
         'views/stock_picking_views.xml',
     ],
-    'assets': {},
+    # 'assets': {
+    #     'web.assets_backend': [
+    #         'custom_sales_enhancement/static/src/xml/clipboard_widget.xml',
+    #         'custom_sales_enhancement/static/src/js/copy_clipboard_char.js',
+    #     ]
+    # },
     'installable': True,
     'auto_install': False,
     'application': False,
+    'post_init_hook': 'post_sale_init_hook',
 }

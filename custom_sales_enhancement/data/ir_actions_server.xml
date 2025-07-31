@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_send_delivery_notification" model="ir.actions.server">
+            <field name="name">Send Delivery Notification</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="state">code</field>
+            <field name="code">
+            if records:
+                action = records.action_send_delivery_mail()
+            </field>
+        </record>
+
+<!--        <record id="base_automation_delivery_notification" model="base.automation">-->
+<!--            <field name="name">Delivery Notification Email</field>-->
+<!--            <field name="model_id" ref="stock.model_stock_picking"/>-->
+<!--            <field name="trigger">on_state_set</field>-->
+<!--            <field name="trg_selection_field_id" eval="stock.selection__stock_picking__state__done"/>-->
+<!--            <field name="trigger_field_ids" eval="[(4, ref('stock.field_stock_picking__state'))]"/>-->
+<!--            <field name="filter_domain">[('state', '=', 'done'), ('sale_id', '!=', False)]</field>-->
+<!--            <field name="filter_pre_domain">[('state', '!=', 'done')]</field>-->
+<!--            <field name="action_server_ids" eval="[(4, ref('custom_sales_enhancement.action_send_delivery_notification'))]"/>-->
+<!--            <field name="active" eval="True"/>-->
+<!--        </record>-->
+    </data>
+</odoo>

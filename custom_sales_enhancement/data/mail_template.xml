@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="delivery_notification_template" model="mail.template">
+            <field name="name">Delivery Notification</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="subject">Delivery Completed: {{ object.name }}</field>
+            <field name="email_from">{{ (object.company_id.email or user.email) }}</field>
+            <field name="email_to">{{ object.sale_id.user_id.email if object.sale_id and object.sale_id.user_id else '' }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px; font-family: Arial, sans-serif;">
+                    <div style="margin: 0px; padding: 20px; font-size: 14px; background-color: #f8f9fa; border-radius: 8px;">
+                        <!-- Header -->
+                        <div style="background-color: #28a745; color: white; padding: 20px; border-radius: 8px 8px 0 0; text-align: center;">
+                            <h2 style="margin: 0; font-size: 24px;">
+                                <i style="font-size: 28px; margin-right: 10px;">📦</i>
+                                Delivery Completed
+                            </h2>
+                        </div>
+
+                        <!-- Content -->
+                        <div style="background-color: white; padding: 20px; border-radius: 0 0 8px 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <p style="font-size: 16px; margin-bottom: 20px;">
+                                Hello <strong>
+                                    <t t-if="object.sale_id and object.sale_id.user_id">
+                                        <t t-out="object.sale_id.user_id.name"/>
+                                    </t>
+                                    <t t-else="">Team</t>
+                                </strong>,
+                            </p>
+
+                            <p style="margin-bottom: 20px;">
+                                Great news! The following delivery order has been successfully completed:
+                            </p>
+
+                            <!-- Delivery Details Table -->
+                            <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #dee2e6;">
+                                <tr style="background-color: #f8f9fa;">
+                                    <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: bold; width: 30%;">
+                                        📋 Delivery Order
+                                    </td>
+                                    <td style="padding: 12px; border: 1px solid #dee2e6;">
+                                        <strong><t t-out="object.name"/></strong>
+                                    </td>
+                                </tr>
+
+                                <t t-if="object.sale_id">
+                                    <tr>
+                                        <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: bold;">
+                                            🛒 Sale Order
+                                        </td>
+                                        <td style="padding: 12px; border: 1px solid #dee2e6;">
+                                            <a t-attf-href="/web#id={{object.sale_id.id}}&amp;model=sale.order" style="color: #007bff; text-decoration: none;">
+                                                <t t-out="object.sale_id.name"/>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </t>
+
+                                <tr style="background-color: #f8f9fa;">
+                                    <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: bold;">
+                                        👤 Customer
+                                    </td>
+                                    <td style="padding: 12px; border: 1px solid #dee2e6;">
+                                        <t t-out="object.partner_id.name"/>
+                                        <t t-if="object.partner_id.ref">
+                                            <span style="color: #6c757d;">[<t t-out="object.partner_id.ref"/>]</span>
+                                        </t>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: bold;">
+                                        📅 Delivery Date
+                                    </td>
+                                    <td style="padding: 12px; border: 1px solid #dee2e6;">
+                                        <t t-out="datetime.datetime.now()" t-options="{'widget': 'datetime', 'format': 'MMMM dd, yyyy \'at\' HH:mm'}"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- View Button -->
+                            <div style="text-align: center; margin: 25px 0;">
+                                <a t-attf-href="/web#id={{object.id}}&amp;model=stock.picking"
+                                   style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block; font-weight: bold;">
+                                    📋 View Delivery Order
+                                </a>
+                            </div>
+
+                            <!-- Footer -->
+                            <hr style="border: none; border-top: 1px solid #dee2e6; margin: 25px 0;"/>
+                            <p style="color: #6c757d; font-size: 12px; text-align: center; margin: 0;">
+                                This is an automated notification from
+                                <strong><t t-out="object.company_id.name"/></strong>
+                                <br/>
+                                Generated on <t t-out="datetime.datetime.now()" t-options="{'widget': 'datetime'}"/>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+        </record>
+    </data>
+</odoo>
