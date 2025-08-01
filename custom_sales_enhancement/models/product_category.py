@@ -10,14 +10,12 @@ class ProductCategory(models.Model):
 
     @api.constrains('name')
     def _check_unique_name(self):
+        ''' constrains to check uniq product category name '''
         for category in self:
             if not category.name:
                 continue
                 
-            domain = [
-                ('name', '=', category.name),
-                ('id', '!=', category.id)
-            ]
+            domain = [('name', '=', category.name), ('id', '!=', category.id)]
             
             existing = self.search(domain, limit=1)
             if existing:
@@ -25,5 +23,4 @@ class ProductCategory(models.Model):
                     "Category name '%(name)s' already exists in category '%(existing_name)s'. "
                     "Category names must be unique across the entire system.",
                     name=category.name,
-                    existing_name=existing.complete_name or existing.name
-                ))
+                    existing_name=existing.complete_name or existing.name))

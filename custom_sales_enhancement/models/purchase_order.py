@@ -13,13 +13,13 @@ class PurchaseOrder(models.Model):
         string='Product Category',
         compute='_compute_category_id',
         store=True,
-        help='Main category of products in this purchase order'
-    )
+        help='Main category of products in this purchase order')
 
     @api.depends('order_line.product_id.categ_id')
     def _compute_category_id(self):
         """
         Compute the main category of the purchase order based on order lines
+        Only to check PO is created(splited) for which category
         """
         for order in self:
             categories = order.order_line.mapped('product_id.categ_id')
@@ -32,8 +32,7 @@ class StockRule(models.Model):
     def _run_buy(self, procurements):
         """
         Override to split purchase orders by product category
-        Requirement 7: Purchase orders created from procurement should be split based on category
-        Enhanced for v18 with better performance and error handling
+        Purchase orders created from procurement should be split based on category
         """
         if not procurements:
             return super()._run_buy(procurements)

@@ -4,6 +4,7 @@
 from . import models
 
 def post_sale_init_hook(env):
+    ''' Create automated action on delivery status done after module installation '''
     from odoo import api, SUPERUSER_ID
 
     try:
@@ -18,11 +19,8 @@ def post_sale_init_hook(env):
             'action_server_ids': [(4, env.ref('custom_sales_enhancement.action_send_delivery_notification').id)],
             'active': True,
         }
-
         base_automated_action = env['base.automation'].create(values)
-
     except Exception as e:
-        print(f"✗ Error creating automated action: {str(e)}")
         import logging
         _logger = logging.getLogger(__name__)
         _logger.error(f"Failed to create delivery notification automated action: {str(e)}")

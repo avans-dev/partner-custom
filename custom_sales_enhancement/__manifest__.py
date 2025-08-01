@@ -19,7 +19,7 @@
         7. Split purchase orders by category from procurement - Done
         8. Automated email action for delivery notifications - Done
         9. Unique category name constraint - Done
-    10. Clipboard copy widget for char fields
+        10. Clipboard copy widget for char fields - Done(Odoo Default widget 'CopyClipboardChar' but another widget from that widget is 'copy_char')
         11. Replace default search filter My Quotations with Sales Orders to display confirmed and done orders by default. - Done
     """,
     'author': 'Avan Sorathiya',
@@ -33,12 +33,12 @@
         'views/sale_order_views.xml',
         'views/stock_picking_views.xml',
     ],
-    # 'assets': {
-    #     'web.assets_backend': [
-    #         'custom_sales_enhancement/static/src/xml/clipboard_widget.xml',
-    #         'custom_sales_enhancement/static/src/js/copy_clipboard_char.js',
-    #     ]
-    # },
+    'assets': {
+        'web.assets_backend': [
+            'custom_sales_enhancement/static/src/css/copy_clipboard.scss',
+            'custom_sales_enhancement/static/src/js/copy_clipboard.js',
+        ]
+    },
     'installable': True,
     'auto_install': False,
     'application': False,
